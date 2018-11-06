@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'stream_twitter',
     'stream_django',
     'pytutorial',
+    'rest_framework',
 )
 
 MIDDLEWARE = [

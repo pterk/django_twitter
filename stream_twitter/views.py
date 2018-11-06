@@ -13,6 +13,10 @@ from stream_twitter.models import Follow, Tweet, Hashtag
 
 from pytutorial import settings
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from .serializers import TweetSerializer, UserSerializer, get_activity_serializer
 
 enricher = Enrich()
 
@@ -132,3 +136,15 @@ class HashtagView(TemplateView):
         context['activities'] = enricher.enrich_activities(activities)
 
         return context
+
+
+class TimelineAPIView(APIView):
+    """
+    Timeline as an api view, enriched with local data
+    """
+    def get(self, request):
+        feeds = feed_manager.get_news_feeds(self.request.user.id)
+        activities = feeds.get('timeline').get()['results']
+        enriched_activities = enricher.enrich_activities(activities)
+        serializer = get_activity_serializer(enriched_activities, TweetSerializer, None, many=True)
+        return Response(serializer.data)

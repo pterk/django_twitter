@@ -9,6 +9,7 @@ from django.views.static import serve
 
 from stream_twitter import views
 
+
 urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
@@ -19,6 +20,7 @@ urlpatterns = [
 
     re_path(r'^hashtag/(?P<hashtag>.+)/', views.HashtagView.as_view(), name='hashtag_feed'),
     path('', views.HomeView.as_view()),
+    path('api/timeline/', views.TimelineAPIView.as_view(), name="timeline_api_feed"),
     path('follow/', login_required(views.FollowView.as_view()), name='follow'),
     re_path(r'^unfollow/(?P<target_id>\d+)/', login_required(views.UnfollowView.as_view()),
         name='unfollow'),
