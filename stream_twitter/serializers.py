@@ -17,7 +17,6 @@ class TweetSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-# TODO: move this to stream-django
 class ActivitySerializer(serializers.Serializer):
     id = serializers.UUIDField()
     foreign_id = serializers.CharField()
@@ -38,13 +37,11 @@ class ActivitySerializer(serializers.Serializer):
             self.fields["actor"] = serializers.CharField()
 
 
-# TODO: check if this works
 class AggregatedSerializer(ActivitySerializer):
     group = serializers.CharField()
     activities = ActivitySerializer(many=True)
 
 
-# TODO: check if this works
 class NotificationSerializer(AggregatedSerializer):
     is_seen = serializers.BooleanField()
     is_read = serializers.BooleanField()
